@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anggota Kelas - X DKV3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👥</text></svg>">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>X DKV 3</h1>
+                    <p>Menjelajah Semesta Kreativitas</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="anggota.html" class="active"><i class="fas fa-users"></i> Anggota</a></li>
+                    <li><a href="album.html"><i class="fas fa-images"></i> Album</a></li>
+                    <li><a href="login dan register.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-info">
+                <span id="displayUsername">Pengunjung</span>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn-login">Login</a>
+                    <a href="login.html" class="btn-register">Daftar</a>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                Halaman ini menampilkan daftar anggota kelas X DKV3.
+            </div>
+            
+            <section class="hero">
+                <h2><i class="fas fa-user-astronaut"></i> Kru Antariksa DKV 3</h2>
+                <p>Kenali para astronaut kreatif yang sedang menjelajahi galaksi desain dan visual. Total: <span id="totalAnggota">12</span> Astronaut.</p>
+            </section>
+            
+            <div class="filter-section">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterAnggota('all')">Semua</button>
+                    <button class="filter-btn" onclick="filterAnggota('ketua')">Ketua</button>
+                    <button class="filter-btn" onclick="filterAnggota('sekretaris')">Sekretaris</button>
+                    <button class="filter-btn" onclick="filterAnggota('bendahara')">Bendahara</button>
+                    <button class="filter-btn" onclick="filterAnggota('anggota')">Anggota</button>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari anggota..." onkeyup="searchAnggota()">
+                </div>
+            </div>
+            
+            <div class="anggota-container" id="anggotaContainer">
+                <!-- Data anggota akan dimuat via JavaScript -->
+            </div>
+            
+            <section class="statistik-section">
+                <div class="section-title">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Statistik Kelas</h3>
+                </div>
+                
+                <div class="statistik-container">
+                    <div class="statistik-card">
+                        <div class="statistik-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="statistik-info">
+                            <h4>34</h4>
+                            <p>Total Anggota</p>
+                        </div>
+                    </div>
+                    
+                    <div class="statistik-card">
+                        <div class="statistik-icon">
+                            <i class="fas fa-venus"></i>
+                        </div>
+                        <div class="statistik-info">
+                            <h4>7</h4>
+                            <p>Perempuan</p>
+                        </div>
+                    </div>
+                    
+                    <div class="statistik-card">
+                        <div class="statistik-icon">
+                            <i class="fas fa-mars"></i>
+                        </div>
+                        <div class="statistik-info">
+                            <h4>5</h4>
+                            <p>Laki-laki</p>
+                        </div>
+                    </div>
+                    
+                    <div class="statistik-card">
+                        <div class="statistik-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="statistik-info">
+                            <h4>100%</h4>
+                            <p>Kehadiran</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-rocket"></i> X DKV 3</h4>
+                    <p>Menjelajah Semesta Kreativitas</p>
+                    <p>Angkatan 2025/2026</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                        <li><a href="anggota.html"><i class="fas fa-users"></i> Anggota</a></li>
+                        <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="jadwal.html"><i class="fas fa-calendar-alt"></i> Jadwal</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p><i class="fas fa-school"></i> SMK N 1 CLUWAK</p>
+                    <p><i class="fas fa-map-marker-alt"></i> PATI, Indonesia</p>
+                    <p><i class="fas fa-envelope"></i> kelasxdvk3@email.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Kelas X DKV 3. Semua Hak Dilindungi.</p>
+                <p class="footer-note">
+                    <i class="fas fa-user-astronaut"></i> Total Kru: <span id="footerAnggotaCount">12</span> Astronaut Kreatif
+                </p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Data anggota kelas
+        const anggotaKelas = [
+            { 
+                id: 1, 
+                nama: "Indra Yulianti", 
+                nim: "DKV001", 
+                peran: "Ketua Kelas", 
+                deskripsi: "KETUA YANG BERTANGGUH JAWAB DAN DAPAT DI PERCAYA.",
+                bidang: "Ilustrasi Digital & Astronomi",
+                jenisKelamin: "P",
+                avatar: "I"
+            },
+            { 
+                id: 2, 
+                nama: "ROBBY KRISNAWAN", 
+                nim: "DKV002", 
+                peran: "Wakil Ketua", 
+                deskripsi: "BISA BERTANGGUNG JAWAB DAN DAPAT DI ANDALKAN.",
+                bidang: "Fotografi & Desain Grafis",
+                jenisKelamin: "L",
+                avatar: "R"
+            },
+            { 
+                id: 3, 
+                nama: "MELINA SEPTIAN ELSANTI", 
+                nim: "DKV003", 
+                peran: "Sekretaris", 
+                deskripsi: "PANDAI DAN DAPAT DI PERCAYA.",
+                bidang: "Typography & Layout Design",
+                jenisKelamin: "P",
+                avatar: "M"
+            },
+    { 
+        id: 4, 
+        nama: "BELLA", 
+        nim: "DKV004", 
+        peran: "Bendahara", 
+        deskripsi: "AHLI MENGATUR KEUNGAN DAN ADIL .",
+        bidang: "UI/UX Design & Ilustrasi",
+        jenisKelamin: "P",
+        avatar: "B"
+    },
+            { 
+                id: 5, 
+                nama: "AULINE SEVANI KRINISTIA", 
+                nim: "DKV005", 
+                peran: "Seksi Kebersihan", 
+                deskripsi: "SEKSI KEBERSIHAN PALING BERGUNA.",
+                bidang: "SEKSI KEBERSIHAN",
+                jenisKelamin: "P",
+                avatar: "A"
+            },
+            { 
+                id: 6, 
+                nama: "ELROY BOAS KRINAMURTI", 
+                nim: "DKV006", 
+                peran: "SEKSI UPACARA", 
+                deskripsi: "TEGAS DAN BERANI.",
+                bidang: "OSIS",
+                jenisKelamin: "L",
+                avatar: "E"
+            },
+            { 
+                id: 7, 
+                nama: "FRENDY ARI PRATAMA", 
+                nim: "DKV007", 
+                peran: "SEKSI KEAMANAN", 
+                deskripsi: "TEGAS DAN DAPAT DIPERCAYA.",
+                bidang: "Character Design & Komik",
+                jenisKelamin: "L",
+                avatar: "F"
+            },
+            { 
+                id: 8, 
+                nama: "DIRGAHINTA ELLOKNUSA HAJENDA PULUNG", 
+                nim: "DKV008", 
+                peran: "SEKSI AGAMA ISLAM", 
+                deskripsi: "Baik Hati Dan Sopan.",
+                bidang: "Typography & Lettering",
+                jenisKelamin: "L",
+                avatar: "D"
+            },
+            { 
+                id: 9, 
+                nama: "ALFINA DWI KRISTIANA", 
+                nim: "DKV009", 
+                peran: "SEKSI AGAMA KRISTEN", 
+                deskripsi: "Spesialis warna dan mood board. Inspirasinya dari nebula dan galaksi.",
+                bidang: "Color Theory & Mood Board",
+                jenisKelamin: "P",
+                avatar: "A"
+            },
+            { 
+                id: 10, 
+                nama: "REVAN NOVERIO", 
+                nim: "DKV010", 
+                peran: "SEKSI OLAHRAGA", 
+                deskripsi: "SEHAT BUGAR DAN KUAT.",
+                bidang: "Logo Design & Branding",
+                jenisKelamin: "L",
+                avatar: "R"
+            },
+            { 
+                id: 11, 
+                nama: "REVALIA KRISTIANA",
+                nim: "DKV011", 
+                peran: "Anggota", 
+                deskripsi: "JUARA KELAS.",
+                bidang: "Digital Illustration",
+                jenisKelamin: "P",
+                avatar: "R"
+            },
+            { 
+                id: 12, 
+                nama: "NOVITA CINTA PERMATA DEWI", 
+                nim: "DKV012", 
+                peran: "Anggota", 
+                deskripsi: "MURID DARI X DKV 3.",
+                bidang: "Packaging Design",
+                jenisKelamin: "P",
+                avatar: "N"
+            },
+            {
+                id: 13, 
+                nama: "RINDANI WULAN SARI", 
+                nim: "DKV013", 
+                peran: "Anggota", 
+                deskripsi: "MURID DARI X DKV 3.",
+                bidang: "Packaging Design",
+                jenisKelamin: "P",
+                avatar: "R"
+            },
+            {
+                id: 14,
+                nama: "KRISTYAN  ANUGRAH HERI SETIAWAN",
+                nim: "DKV014",
+                peran: "Seksi Keamanan",
+                deskripsi: "MURID X DKV 3",
+                bidang: "DESIGN GRAFIS",
+                jenisKelamin: "L",
+                avatar: "K"
+            },
+            {
+                id: 15,
+                nama: "Farand Aditya Nugroho",
+                nim: "DKV015",
+                peran: "Anggota",
+                deskripsi: "MURID X DKV 3",
+                bidang: "DESIGN GRAFIS",
+                jenisKelamin: "L",
+                avatar: "F"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cek status login
+            const username = localStorage.getItem('dkv3_username');
+            const displayElement = document.getElementById('displayUsername');
+            
+            if (username) {
+                displayElement.textContent = username;
+                displayElement.innerHTML = `<strong>${username}</strong>`;
+                
+                // Update tombol login/logout
+                const authButtons = document.querySelector('.auth-buttons');
+                authButtons.innerHTML = `
+                    <span style="color: var(--accent-light); margin-right: 10px;">
+                        <i class="fas fa-user-astronaut"></i> ${username}
+                    </span>
+                    <a href="#" class="btn-logout" onclick="logout()">Logout</a>
+                `;
+            }
+            
+            // Tampilkan jumlah anggota
+            document.getElementById('totalAnggota').textContent = anggotaKelas.length;
+            document.getElementById('footerAnggotaCount').textContent = anggotaKelas.length;
+            
+            // Load data anggota
+            loadAnggota();
+            
+            // Setup filter buttons
+            setupFilterButtons();
+        });
+
+        function loadAnggota(filter = 'all', searchTerm = '') {
+            const container = document.getElementById('anggotaContainer');
+            container.innerHTML = '';
+            
+            let filteredAnggota = anggotaKelas;
+            
+            // Apply filter
+            if (filter !== 'all') {
+                filteredAnggota = anggotaKelas.filter(anggota => {
+                    if (filter === 'ketua') return anggota.peran.toLowerCase().includes('ketua');
+                    if (filter === 'sekretaris') return anggota.peran.toLowerCase().includes('sekretaris');
+                    if (filter === 'bendahara') return anggota.peran.toLowerCase().includes('bendahara');
+                    if (filter === 'anggota') return anggota.peran.toLowerCase() === 'anggota';
+                    return true;
+                });
+            }
+            
+            // Apply search
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredAnggota = filteredAnggota.filter(anggota => 
+                    anggota.nama.toLowerCase().includes(term) ||
+                    anggota.nim.toLowerCase().includes(term) ||
+                    anggota.peran.toLowerCase().includes(term) ||
+                    anggota.deskripsi.toLowerCase().includes(term) ||
+                    anggota.bidang.toLowerCase().includes(term)
+                );
+            }
+            
+            // Render anggota
+            filteredAnggota.forEach(anggota => {
+                const card = document.createElement('div');
+                card.className = 'anggota-card';
+                card.setAttribute('data-peran', anggota.peran.toLowerCase());
+                
+                // Tentukan warna avatar berdasarkan jenis kelamin
+                const avatarColor = anggota.jenisKelamin === 'P' ? '#FF6B8B' : '#6A7AE0';
+                
+                card.innerHTML = `
+                    <div class="anggota-avatar" style="background: ${avatarColor}">
+                        ${anggota.avatar}
+                    </div>
+                    <h3 class="anggota-nama">${anggota.nama}</h3>
+                    <p class="anggota-nim">NIM: ${anggota.nim}</p>
+                    <div class="anggota-role ${anggota.peran.toLowerCase().replace(' ', '-')}">
+                        ${anggota.peran}
+                    </div>
+                    <p class="anggota-bidang">
+                        <i class="fas fa-palette"></i> ${anggota.bidang}
+                    </p>
+                    <p class="anggota-deskripsi">${anggota.deskripsi}</p>
+                    <div class="anggota-footer">
+                        <span class="anggota-jk">
+                            <i class="fas ${anggota.jenisKelamin === 'P' ? 'fa-venus' : 'fa-mars'}"></i>
+                            ${anggota.jenisKelamin === 'P' ? 'Perempuan' : 'Laki-laki'}
+                        </span>
+                        <button class="btn-detail" onclick="showDetail(${anggota.id})">
+                            <i class="fas fa-info-circle"></i> Detail
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            // Update count
+            document.getElementById('totalAnggota').textContent = filteredAnggota.length;
+        }
+
+        function filterAnggota(filterType) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Load anggota dengan filter
+            const searchTerm = document.getElementById('searchInput').value;
+            loadAnggota(filterType, searchTerm);
+        }
+
+        function searchAnggota() {
+            const searchTerm = document.getElementById('searchInput').value;
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('onclick');
+            const filterType = activeFilter.includes("'") ? activeFilter.split("'")[1] : 'all';
+            loadAnggota(filterType, searchTerm);
+        }
+
+        function setupFilterButtons() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        function showDetail(id) {
+            const anggota = anggotaKelas.find(a => a.id === id);
+            if (anggota) {
+                alert(`Detail Anggota:\n\nNama: ${anggota.nama}\nNIM: ${anggota.nim}\nPeran: ${anggota.peran}\nBidang: ${anggota.bidang}\n\n${anggota.deskripsi}`);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('dkv3_username');
+            localStorage.removeItem('dkv3_loggedIn');
+            alert('Anda telah logout!');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
