@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Sekolah - Sistem Mingguan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #3a8ffe 0%, #1e5cb3 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+        
+        .info-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .info-box h3 {
+            color: #1e5cb3;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 8px;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .weeks-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .week-btn {
+            flex: 1;
+            padding: 15px 20px;
+            background-color: #e9ecef;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .week-btn.active {
+            background-color: #1e5cb3;
+            color: white;
+        }
+        
+        .week-btn:hover:not(.active) {
+            background-color: #d0d7e2;
+        }
+        
+        .schedule-container {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .schedule-header {
+            background-color: #1e5cb3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .schedule {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .schedule th {
+            background-color: #f0f7ff;
+            padding: 15px;
+            text-align: center;
+            color: #1e5cb3;
+            border-bottom: 2px solid #e1ecff;
+        }
+        
+        .schedule td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            vertical-align: top;
+        }
+        
+        .schedule tr:hover {
+            background-color: #f9fbff;
+        }
+        
+        .time {
+            font-weight: 600;
+            color: #1e5cb3;
+            background-color: #f0f7ff;
+            width: 15%;
+        }
+        
+        .activity {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .practice {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .theory {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .practice-color {
+            background-color: #4caf50;
+        }
+        
+        .theory-color {
+            background-color: #2196f3;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .back-button {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: #1e5cb3;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #154a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-back i {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .info-panel {
+                flex-direction: column;
+            }
+
+            .schedule th, .schedule td {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .weeks-toggle {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+
+            .back-button {
+                text-align: center;
+            }
+        }
+        
+        .notification {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #c62828;
+            font-weight: 500;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+        </div>
+        <header>
+            <h1>Jadwal Sekolah</h1>
+            <p class="subtitle">Sistem 1 Minggu Praktek & 1 Minggu Teori Bergantian</p>
+        </header>
+        
+        <!-- Notifikasi minggu saat ini -->
+        <div id="week-notification" class="notification">
+            <i class="fas fa-info-circle"></i> 
+            <span id="week-notification-text">Memuat informasi minggu...</span>
+        </div>
+        
+        <div class="info-panel">
+            <div class="info-box">
+                <h3>Minggu Ini</h3>
+                <p id="current-week">Minggu Teori</p>
+                <p id="current-date">Tanggal: -</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>Minggu Depan</h3>
+                <p id="next-week">Minggu Praktek</p>
+                <p>Persiapan: Buku catatan & alat tulis</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>Jam Sekolah</h3>
+                <p>Senin - Jumat: 07.30 - 15.30 WIB</p>
+                <p>Istirahat: 10.00-10.20 & 12.30-13.00</p>
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <p><strong>Perhatian:</strong> Jadwal mengikuti sistem bergantian setiap minggu. Minggu ini adalah <span id="current-week-text">Minggu Teori</span>, minggu depan akan menjadi <span id="next-week-text">Minggu Praktek</span>. Pastikan Anda membawa perlengkapan yang sesuai.</p>
+        </div>
+        
+        <div class="weeks-toggle">
+            <button class="week-btn" id="practice-btn">Minggu Praktek</button>
+            <button class="week-btn active" id="theory-btn">Minggu Teori</button>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="color-box practice-color"></div>
+                <span>Aktivitas Praktek</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box theory-color"></div>
+                <span>Aktivitas Teori</span>
+            </div>
+        </div>
+        
+        <div class="schedule-container">
+            <div class="schedule-header" id="schedule-title">Jadwal Minggu Teori</div>
+            <table class="schedule" id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Hari</th>
+                        <th>Waktu</th>
+                        <th>Aktivitas</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <!-- Jadwal akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>Jadwal Sekolah &copy; 2026 - Sistem Minggu Praktek & Teori Bergantian</p>
+            <p>Senin - Jumat | Update otomatis berdasarkan minggu berjalan</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data jadwal untuk minggu praktek
+        const practiceSchedule = [
+            {
+                day: "Senin",
+                time: "07.30 - 10.00",
+                activity: "Informatika",
+                description: "Belajar dasar-dasar komputer",
+                type: "practice"
+            },
+            {
+                day: "Senin",
+                time: "10.20 - 12.30",
+                activity: "Bahasa Inggris",
+                description: "Belajar Di Ruang Lab Bahasa",
+                type: "practice"
+            },
+            {
+                day: "Selasa",
+                time: "07.30 - 11.00",
+                activity: "Bahasa Inggris",
+                description: "Belajar di ruang lab bahasa",
+                type: "practice"
+            },
+            {
+                day: "Selasa",
+                time: "11.00 - 15.30",
+                activity: "Matematika",
+                description: "Belajar Dasar- Dasar Matematika",
+                type: "practice"
+            },
+            {
+                day: "Rabu",
+                time: "07.30 - 09.00",
+                activity: "Matematika",
+                description: "Belajar Dasar- Dasar Matematika",
+                type: "practice"
+            },
+            {
+                day: "Rabu",
+                time: "09.00 - 15.30",
+                activity: "Mapel Produktif",
+                description: "Praktek Desain Komunikasi Visual",
+                type: "practice"
+            },
+            {
+                day: "Kamis",
+                time: "07.00 - 15.30",
+                activity: "Mapel Produktif",
+                description: "Praktek Desain Komunikasi Visual",
+                type: "practice"
+            },
+            {
+                day: "Jumat",
+                time: "07.30 - 10.00",
+                activity: "Mapel Produktif",
+                description: "Praktek Desain Komunikasi Visual",
+                type: "practice"
+            },
+           
+        ];
+
+        // Data jadwal untuk minggu teori
+        const theorySchedule = [
+            {
+                day: "Senin",
+                time: "07.30 - 10.00",
+                activity: "Matematika Teknik",
+                description: "Aljabar linier dan kalkulus",
+                type: "theory"
+            },
+            {
+                day: "Senin",
+                time: "10.20 - 12.30",
+                activity: "Fisika Terapan",
+                description: "Mekanika dan termodinamika",
+                type: "theory"
+            },
+            {
+                day: "Senin",
+                time: "13.00 - 15.30",
+                activity: "Dasar-dasar Teknik",
+                description: "Pengenalan dunia teknik",
+                type: "theory"
+            },
+            {
+                day: "Selasa",
+                time: "07.30 - 10.00",
+                activity: "Gambar Teknik",
+                description: "Teori dan standar gambar teknik",
+                type: "theory"
+            },
+            {
+                day: "Selasa",
+                time: "10.20 - 12.30",
+                activity: "Material Teknik",
+                description: "Sifat dan karakteristik material",
+                type: "theory"
+            },
+            {
+                day: "Selasa",
+                time: "13.00 - 15.30",
+                activity: "Elektronika Dasar",
+                description: "Teori rangkaian elektronika",
+                type: "theory"
+            },
+            {
+                day: "Rabu",
+                time: "07.30 - 10.00",
+                activity: "Mekanika Teknik",
+                description: "Statika dan dinamika",
+                type: "theory"
+            },
+            {
+                day: "Rabu",
+                time: "10.20 - 12.30",
+                activity: "Termodinamika",
+                description: "Hukum-hukum termodinamika",
+                type: "theory"
+            },
+            {
+                day: "Rabu",
+                time: "13.00 - 15.30",
+                activity: "Bahasa Inggris Teknik",
+                description: "Kosakata teknik dalam bahasa Inggris",
+                type: "theory"
+            },
+            {
+                day: "Kamis",
+                time: "07.30 - 10.00",
+                activity: "Kendali Otomatis",
+                description: "Teori sistem kendali",
+                type: "theory"
+            },
+            {
+                day: "Kamis",
+                time: "10.20 - 12.30",
+                activity: "Jaringan Komputer",
+                description: "Teori jaringan dan protokol",
+                type: "theory"
+            },
+            {
+                day: "Kamis",
+                time: "13.00 - 15.30",
+                activity: "Pneumatik & Hidrolik",
+                description: "Teori sistem fluida",
+                type: "theory"
+            },
+            {
+                day: "Jumat",
+                time: "07.30 - 10.00",
+                activity: "Kewirausahaan",
+                description: "Pengembangan usaha di bidang teknik",
+                type: "theory"
+            },
+            {
+                day: "Jumat",
+                time: "10.20 - 12.30",
+                activity: "Etika Profesi",
+                description: "Etika kerja dalam dunia teknik",
+                type: "theory"
+            },
+            {
+                day: "Jumat",
+                time: "13.00 - 15.30",
+                activity: "Pengembangan Diri",
+                description: "Soft skill untuk karir teknik",
+                type: "theory"
+            }
+        ];
+
+        // Fungsi untuk menentukan minggu ini dengan lebih akurat
+        function getCurrentWeekType() {
+            // Metode 1: Berdasarkan tanggal (default ke teori)
+            const today = new Date();
+            const yearStart = new Date(today.getFullYear(), 0, 1);
+            const days = Math.floor((today - yearStart) / (24 * 60 * 60 * 1000));
+            const weekNumber = Math.ceil((days + 1) / 7);
+            
+            // Jika ingin minggu ini selalu teori, gunakan ini:
+            // return 'theory'; // Uncomment baris ini jika ingin minggu ini selalu teori
+            
+            // Atau gunakan logika bergantian:
+            // return (weekNumber % 2 === 0) ? 'theory' : 'practice';
+            
+            // Untuk sekarang, kita set default ke teori
+            return 'theory';
+        }
+
+        // Fungsi untuk mengisi tabel jadwal
+        function fillSchedule(scheduleData) {
+            const scheduleBody = document.getElementById('schedule-body');
+            scheduleBody.innerHTML = '';
+            
+            // Kelompokkan berdasarkan hari
+            const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
+            
+            days.forEach(day => {
+                const dayActivities = scheduleData.filter(item => item.day === day);
+                
+                if (dayActivities.length === 0) return;
+                
+                dayActivities.forEach((activity, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Untuk baris pertama setiap hari, tampilkan nama hari
+                    if (index === 0) {
+                        row.innerHTML = `
+                            <td rowspan="${dayActivities.length}" class="time">${day}</td>
+                            <td>${activity.time}</td>
+                            <td class="activity ${activity.type}">${activity.activity}</td>
+                            <td>${activity.description}</td>
+                        `;
+                    } else {
+                        row.innerHTML = `
+                            <td>${activity.time}</td>
+                            <td class="activity ${activity.type}">${activity.activity}</td>
+                            <td>${activity.description}</td>
+                        `;
+                    }
+                    
+                    scheduleBody.appendChild(row);
+                });
+            });
+        }
+
+        // Fungsi untuk mengubah jadwal yang ditampilkan
+        function showSchedule(type) {
+            const practiceBtn = document.getElementById('practice-btn');
+            const theoryBtn = document.getElementById('theory-btn');
+            const scheduleTitle = document.getElementById('schedule-title');
+            const notification = document.getElementById('week-notification');
+            const notificationText = document.getElementById('week-notification-text');
+            
+            if (type === 'practice') {
+                practiceBtn.classList.add('active');
+                theoryBtn.classList.remove('active');
+                scheduleTitle.textContent = 'Jadwal Minggu Praktek';
+                fillSchedule(practiceSchedule);
+                
+                // Update notifikasi
+                notification.className = 'notification';
+                notificationText.innerHTML = '<i class="fas fa-tools"></i> <strong>MINGGU PRAKTEK:</strong> Siapkan alat praktek dan baju praktikum.';
+            } else {
+                theoryBtn.classList.add('active');
+                practiceBtn.classList.remove('active');
+                scheduleTitle.textContent = 'Jadwal Minggu Teori';
+                fillSchedule(theorySchedule);
+                
+                // Update notifikasi
+                notification.className = 'notification success';
+                notificationText.innerHTML = '<i class="fas fa-book"></i> <strong>MINGGU TEORI:</strong> Bawa buku catatan dan alat tulis lengkap.';
+            }
+            
+            // Update informasi minggu ini
+            updateWeekInfo(type);
+        }
+
+        // Fungsi untuk memperbarui informasi minggu
+        function updateWeekInfo(currentType) {
+            const currentWeekElement = document.getElementById('current-week');
+            const nextWeekElement = document.getElementById('next-week');
+            const currentWeekText = document.getElementById('current-week-text');
+            const nextWeekText = document.getElementById('next-week-text');
+            const currentDateElement = document.getElementById('current-date');
+            
+            const today = new Date();
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            currentDateElement.textContent = `Tanggal: ${today.toLocaleDateString('id-ID', options)}`;
+            
+            if (currentType === 'practice') {
+                currentWeekElement.textContent = 'Minggu Praktek';
+                currentWeekElement.style.color = '#4caf50';
+                nextWeekElement.textContent = 'Minggu Teori';
+                nextWeekElement.style.color = '#2196f3';
+                currentWeekText.textContent = 'Minggu Praktek';
+                nextWeekText.textContent = 'Minggu Teori';
+            } else {
+                currentWeekElement.textContent = 'Minggu Teori';
+                currentWeekElement.style.color = '#2196f3';
+                nextWeekElement.textContent = 'Minggu Praktek';
+                nextWeekElement.style.color = '#4caf50';
+                currentWeekText.textContent = 'Minggu Teori';
+                nextWeekText.textContent = 'Minggu Praktek';
+            }
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tentukan minggu saat ini (default ke teori)
+            const currentWeekType = getCurrentWeekType();
+            
+            console.log('Minggu ini:', currentWeekType); // Untuk debugging
+            
+            // Tampilkan jadwal sesuai minggu saat ini
+            showSchedule(currentWeekType);
+            
+            // Tambahkan event listener untuk tombol toggle
+            document.getElementById('practice-btn').addEventListener('click', function() {
+                showSchedule('practice');
+            });
+            
+            document.getElementById('theory-btn').addEventListener('click', function() {
+                showSchedule('theory');
+            });
+            
+            // Tampilkan informasi tambahan
+            const today = new Date();
+            const weekNumber = Math.ceil(((today - new Date(today.getFullYear(), 0, 1)) / 86400000 + new Date(today.getFullYear(), 0, 1).getDay() + 1) / 7);
+            console.log('Minggu ke:', weekNumber, 'dalam tahun', today.getFullYear());
+        });
+    </script>
+</body>
+</html>
