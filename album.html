@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Astronomi - Upload Otomatis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0e2a 0%, #1a1b3a 50%, #0c0e2a 100%);
+            color: #e0e0ff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(16, 18, 54, 0.8);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 120, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #7b8cff, #a66fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(123, 140, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b8c1ff;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .upload-section {
+            background: rgba(25, 28, 65, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px dashed rgba(100, 120, 255, 0.4);
+            text-align: center;
+        }
+
+        .upload-area {
+            padding: 40px 20px;
+            border-radius: 10px;
+            background: rgba(16, 18, 54, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            background: rgba(16, 18, 54, 0.8);
+            border-color: rgba(123, 140, 255, 0.6);
+        }
+
+        .upload-area i {
+            font-size: 4rem;
+            color: #7b8cff;
+            margin-bottom: 15px;
+        }
+
+        .upload-area h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #a6b1ff;
+        }
+
+        .upload-area p {
+            color: #b8c1ff;
+            margin-bottom: 15px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .quick-tips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tip {
+            background: rgba(58, 63, 140, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .tip i {
+            color: #7b8cff;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #3a3f8c, #5a40a3);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(58, 63, 140, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(58, 63, 140, 0.6);
+            background: linear-gradient(90deg, #4a4f9c, #6a50b3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .album-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            height: 250px;
+            background: #16193d;
+            border: 1px solid rgba(100, 120, 255, 0.1);
+        }
+
+        .photo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .photo-item.dragging {
+            opacity: 0.7;
+            transform: scale(1.05);
+            z-index: 100;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(12, 14, 42, 0.95), transparent);
+            padding: 20px 15px 15px;
+            transform: translateY(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover .photo-info {
+            transform: translateY(0);
+        }
+
+        .photo-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .photo-desc {
+            font-size: 0.9rem;
+            color: #b8c1ff;
+        }
+
+        .drag-handle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(16, 18, 54, 0.8);
+            color: #b8c1ff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .photo-count {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #a6b1ff;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(25, 28, 65, 0.5);
+            border-radius: 10px;
+        }
+
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            border: 5px solid rgba(100, 120, 255, 0.2);
+            border-radius: 50%;
+            border-top: 5px solid #7b8cff;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-album {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(25, 28, 65, 0.3);
+            border-radius: 15px;
+            border: 2px dashed rgba(100, 120, 255, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #8a95ff;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(100, 120, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .album-container {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+            
+            .photo-item {
+                height: 220px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-star"></i> Album Astronomi - Upload Otomatis</h1>
+            <p class="subtitle">Upload semua foto astronomi sekaligus dari folder <code>src/img</code> Anda. Sistem akan otomatis membaca dan menampilkannya.</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Upload Foto dari Folder src/img</h3>
+                <p>Pilih semua foto astronomi sekaligus (bisa multiple select)</p>
+                <p><strong>Tips:</strong> Buka folder src/img, tekan Ctrl+A (Select All), lalu drag ke sini</p>
+                <input type="file" id="fileInput" accept="image/*" multiple>
+                <button class="btn" id="selectFilesBtn">
+                    <i class="fas fa-folder-open"></i> Pilih Foto dari Folder
+                </button>
+            </div>
+            
+            <div class="quick-tips">
+                <div class="tip">
+                    <i class="fas fa-mouse-pointer"></i> Ctrl+A untuk pilih semua
+                </div>
+                <div class="tip">
+                    <i class="fas fa-hand-pointer"></i> Ctrl+Click untuk pilih beberapa
+                </div>
+                <div class="tip">
+                    <i class="fas fa-drag-drop"></i> Drag & Drop langsung dari explorer
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="shuffleBtn" disabled>
+                <i class="fas fa-random"></i> Acak Posisi
+            </button>
+            <button class="btn" id="clearBtn" disabled>
+                <i class="fas fa-trash"></i> Hapus Semua
+            </button>
+            <button class="btn" id="downloadBtn" disabled>
+                <i class="fas fa-download"></i> Simpan Album
+            </button>
+        </div>
+
+        <div class="album-container" id="albumContainer">
+            <div class="empty-album">
+                <i class="fas fa-images"></i>
+                <h3>Belum Ada Foto</h3>
+                <p>Upload foto dari folder <strong>src/img</strong> untuk memulai album astronomi Anda</p>
+            </div>
+        </div>
+
+        <div class="photo-count" id="photoCount">
+            0 foto di album
+        </div>
+
+        <footer>
+            <p>Album Foto Astronomi &copy; 2023 - Drag & Drop untuk atur ulang posisi foto</p>
+        </footer>
+    </div>
+
+    <script>
+        // Variabel global
+        let astronomicalPhotos = [];
+        let draggedItem = null;
+        
+        // Daftar nama astronomi untuk judul foto
+        const astronomyNames = [
+            "Galaksi Bimasakti", "Nebula Orion", "Planet Saturnus", "Bimasakti di Atas Gunung",
+            "Nebula Helix", "Bimasakti di Atas Laut", "Aurora Borealis", "Bulan Purnama",
+            "Nebula Carina", "Galaksi Andromeda", "Komet Neowise", "Bintang-bintang di Atas Gurun",
+            "Planet Jupiter", "Nebula Kepiting", "Hujan Meteor", "Supernova",
+            "Lubang Hitam", "Galaksi Sombrero", "Nebula Kupu-kupu", "Planet Mars",
+            "Eklips Matahari", "Gugus Bintang", "Nebula Roset", "Galaksi Pusaran"
+        ];
+
+        // Daftar deskripsi astronomi
+        const astronomyDescriptions = [
+            "Keindahan alam semesta yang tak terbatas", "Fenomena luar angkasa yang menakjubkan",
+            "Dokumentasi astronomi yang langka", "Potret indah dari jagad raya",
+            "Eksplorasi visual alam semesta", "Momentum langit malam yang spektakuler",
+            "Keajaiban kosmos yang abadi", "Pemandangan dari luar angkasa",
+            "Fenomena langit yang jarang terlihat", "Keindahan galaksi yang jauh",
+            "Bintang-bintang bersinar di kegelapan", "Misteri alam semesta yang terungkap",
+            "Keagungan ciptaan Tuhan di langit", "Dokumentasi eksplorasi antariksa",
+            "Keindahan yang tak terjangkau kata-kata", "Potret kosmos dari berbagai sudut"
+        ];
+
+        // Fungsi untuk mendapatkan nama file tanpa ekstensi
+        function getFileNameWithoutExtension(filename) {
+            return filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        }
+
+        // Fungsi untuk menghasilkan nama dan deskripsi untuk foto
+        function getAstronomyInfo(filename, index) {
+            const nameFromFile = getFileNameWithoutExtension(filename);
+            
+            // Gunakan nama dari file jika tidak default, atau gunakan nama dari daftar
+            let displayName;
+            if (nameFromFile.length > 3 && nameFromFile !== filename.replace(/\.[^/.]+$/, "")) {
+                displayName = nameFromFile.charAt(0).toUpperCase() + nameFromFile.slice(1);
+            } else {
+                // Gunakan nama dari daftar berdasarkan index, atau acak
+                displayName = astronomyNames[index % astronomyNames.length] || astronomyNames[Math.floor(Math.random() * astronomyNames.length)];
+            }
+            
+            const descIndex = Math.floor(Math.random() * astronomyDescriptions.length);
+            
+            return {
+                title: displayName,
+                desc: astronomyDescriptions[descIndex]
+            };
+        }
+
+        // Fungsi untuk memuat foto ke album
+        function loadPhotos() {
+            const albumContainer = document.getElementById('albumContainer');
+            const photoCount = document.getElementById('photoCount');
+            const shuffleBtn = document.getElementById('shuffleBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Kosongkan kontainer
+            albumContainer.innerHTML = '';
+            
+            // Jika tidak ada foto
+            if (astronomicalPhotos.length === 0) {
+                albumContainer.innerHTML = `
+                    <div class="empty-album">
+                        <i class="fas fa-images"></i>
+                        <h3>Belum Ada Foto</h3>
+                        <p>Upload foto dari folder <strong>src/img</strong> untuk memulai album astronomi Anda</p>
+                    </div>
+                `;
+                photoCount.textContent = '0 foto di album';
+                
+                // Nonaktifkan tombol
+                shuffleBtn.disabled = true;
+                clearBtn.disabled = true;
+                downloadBtn.disabled = true;
+                return;
+            }
+            
+            // Aktifkan tombol
+            shuffleBtn.disabled = false;
+            clearBtn.disabled = false;
+            downloadBtn.disabled = false;
+            
+            // Tambahkan setiap foto ke album
+            astronomicalPhotos.forEach((photo, index) => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'photo-item';
+                photoElement.setAttribute('data-id', photo.id);
+                photoElement.setAttribute('draggable', 'true');
+                
+                photoElement.innerHTML = `
+                    <div class="drag-handle" title="Seret untuk mengatur ulang">
+                        <i class="fas fa-arrows-alt"></i>
+                    </div>
+                    <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+                    <div class="photo-info">
+                        <div class="photo-title">
+                            <i class="fas fa-star"></i> ${photo.title}
+                        </div>
+                        <div class="photo-desc">${photo.desc}</div>
+                        <div class="photo-desc" style="font-size: 0.8rem; margin-top: 5px; color: #8a95ff;">
+                            <i class="fas fa-file-image"></i> ${photo.filename}
+                        </div>
+                    </div>
+                `;
+                
+                albumContainer.appendChild(photoElement);
+            });
+            
+            // Update jumlah foto
+            photoCount.innerHTML = `
+                <i class="fas fa-images"></i> 
+                <strong>${astronomicalPhotos.length} foto</strong> di album astronomi
+                <span style="font-size: 0.9rem; display: block; margin-top: 5px;">Seret dan lepas foto untuk mengatur ulang urutannya</span>
+            `;
+            
+            // Tambahkan event listeners untuk drag & drop
+            setupDragAndDrop();
+        }
+
+        // Fungsi untuk menyiapkan drag & drop
+        function setupDragAndDrop() {
+            const photoItems = document.querySelectorAll('.photo-item');
+            const albumContainer = document.getElementById('albumContainer');
+            
+            photoItems.forEach(item => {
+                // Event saat mulai menyeret
+                item.addEventListener('dragstart', function(e) {
+                    draggedItem = this;
+                    this.classList.add('dragging');
+                    
+                    // Atur data transfer untuk drag & drop
+                    e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                // Event saat selesai menyeret
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    draggedItem = null;
+                    
+                    // Update urutan array setelah drag & drop
+                    updatePhotoOrder();
+                });
+            });
+            
+            // Event saat item diseret di atas kontainer
+            albumContainer.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                
+                // Dapatkan item yang sedang di-drag dan item yang di bawahnya
+                const afterElement = getDragAfterElement(albumContainer, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                
+                if (afterElement == null) {
+                    albumContainer.appendChild(draggable);
+                } else {
+                    albumContainer.insertBefore(draggable, afterElement);
+                }
+            });
+            
+            albumContainer.addEventListener('drop', function(e) {
+                e.preventDefault();
+            });
+        }
+
+        // Fungsi untuk mendapatkan elemen setelah posisi drag
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.photo-item:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Fungsi untuk memperbarui urutan array foto
+        function updatePhotoOrder() {
+            const photoItems = document.querySelectorAll('.photo-item');
+            const newOrder = [];
+            
+            photoItems.forEach(item => {
+                const id = parseInt(item.getAttribute('data-id'));
+                const photo = astronomicalPhotos.find(p => p.id === id);
+                if (photo) {
+                    newOrder.push(photo);
+                }
+            });
+            
+            astronomicalPhotos = newOrder;
+            showNotification("Urutan foto telah diperbarui!", 1500);
+        }
+
+        // Fungsi untuk mengacak foto
+        function shufflePhotos() {
+            if (astronomicalPhotos.length === 0) return;
+            
+            // Acak urutan array menggunakan Fisher-Yates algorithm
+            for (let i = astronomicalPhotos.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [astronomicalPhotos[i], astronomicalPhotos[j]] = [astronomicalPhotos[j], astronomicalPhotos[i]];
+            }
+            
+            loadPhotos();
+            showNotification("Foto telah diacak!");
+        }
+
+        // Fungsi untuk menghapus semua foto
+        function clearAllPhotos() {
+            if (astronomicalPhotos.length === 0) return;
+            
+            if (confirm(`Apakah Anda yakin ingin menghapus semua ${astronomicalPhotos.length} foto dari album?`)) {
+                astronomicalPhotos = [];
+                loadPhotos();
+                showNotification("Semua foto telah dihapus dari album!");
+            }
+        }
+
+        // Fungsi untuk menangani upload file
+        function setupFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            // Klik tombol untuk trigger file input
+            selectFilesBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Klik area upload untuk trigger file input
+            uploadArea.addEventListener('click', (e) => {
+                if (e.target !== selectFilesBtn && !selectFilesBtn.contains(e.target)) {
+                    fileInput.click();
+                }
+            });
+            
+            // Drag & drop ke area upload
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'rgba(16, 18, 54, 0.9)';
+                uploadArea.style.borderColor = 'rgba(123, 140, 255, 0.8)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.background = 'rgba(16, 18, 54, 0.5)';
+                uploadArea.style.borderColor = 'rgba(100, 120, 255, 0.4)';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'rgba(16, 18, 54, 0.5)';
+                uploadArea.style.borderColor = 'rgba(100, 120, 255, 0.4)';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileUpload(fileInput.files);
+                }
+            });
+            
+            // Ketika file dipilih
+            fileInput.addEventListener('change', function(e) {
+                if (this.files.length > 0) {
+                    handleFileUpload(this.files);
+                }
+            });
+        }
+
+        // Fungsi untuk memproses file yang diupload
+        function handleFileUpload(files) {
+            // Tampilkan notifikasi
+            showNotification(`Mengupload ${files.length} foto...`, 2000);
+            
+            // Tampilkan loading
+            const albumContainer = document.getElementById('albumContainer');
+            albumContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Memproses ${files.length} foto...</p>
+                </div>
+            `;
+            
+            // Proses file setelah delay kecil untuk UI
+            setTimeout(() => {
+                let newId = astronomicalPhotos.length > 0 
+                    ? Math.max(...astronomicalPhotos.map(p => p.id)) + 1 
+                    : 1;
+                
+                // Tambahkan setiap file yang diupload
+                Array.from(files).forEach((file, index) => {
+                    // Hanya proses file gambar
+                    if (!file.type.match('image.*')) {
+                        console.log(`File ${file.name} bukan gambar, dilewati`);
+                        return;
+                    }
+                    
+                    const fileURL = URL.createObjectURL(file);
+                    const info = getAstronomyInfo(file.name, index);
+                    
+                    astronomicalPhotos.push({
+                        id: newId + index,
+                        src: fileURL,
+                        filename: file.name,
+                        title: info.title,
+                        desc: info.desc,
+                        file: file, // Simpan file asli untuk kebutuhan download
+                        isUploaded: true
+                    });
+                });
+                
+                // Muat ulang foto
+                loadPhotos();
+                
+                // Reset input file
+                document.getElementById('fileInput').value = '';
+                
+                // Tampilkan notifikasi sukses
+                showNotification(`Berhasil menambahkan ${files.length} foto ke album!`);
+                
+                // Tampilkan instruksi drag & drop
+                setTimeout(() => {
+                    if (astronomicalPhotos.length > 0) {
+                        showNotification("Coba seret foto untuk mengatur ulang album!", 4000);
+                    }
+                }, 1000);
+            }, 500);
+        }
+
+        // Fungsi untuk menyimpan album
+        function saveAlbum() {
+            if (astronomicalPhotos.length === 0) {
+                showNotification("Tidak ada foto untuk disimpan!", 2000);
+                return;
+            }
+            
+            // Buat data album
+            const albumData = {
+                title: "Album Astronomi",
+                totalPhotos: astronomicalPhotos.length,
+                created: new Date().toISOString(),
+                photos: astronomicalPhotos.map(photo => ({
+                    id: photo.id,
+                    filename: photo.filename,
+                    title: photo.title,
+                    desc: photo.desc
+                }))
+            };
+            
+            // Buat blob dan download
+            const blob = new Blob([JSON.stringify(albumData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `album-astronomi-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification("Data album telah disimpan ke file JSON!");
+        }
+
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, duration = 3000) {
+            // Hapus notifikasi sebelumnya jika ada
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Buat elemen notifikasi
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            // Tambahkan styling untuk notifikasi
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(90deg, #3a3f8c, #5a40a3);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                font-weight: 600;
+                animation: slideIn 0.3s ease, fadeOut 0.3s ease ${duration - 300}ms;
+                animation-fill-mode: forwards;
+                max-width: 300px;
+            `;
+            
+            // Tambahkan keyframes untuk animasi jika belum ada
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Hapus notifikasi setelah duration
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, duration);
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup event listeners untuk tombol
+            document.getElementById('shuffleBtn').addEventListener('click', shufflePhotos);
+            document.getElementById('clearBtn').addEventListener('click', clearAllPhotos);
+            document.getElementById('downloadBtn').addEventListener('click', saveAlbum);
+            
+            // Setup file upload
+            setupFileUpload();
+        });
+    </script>
+</body>
+</html>
