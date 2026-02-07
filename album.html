@@ -1,828 +1,1297 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Album Astronomi - Upload Otomatis</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+/* ============================================
+   STYLESHEET UTAMA - Website Kelas X DKV3
+   Tema: Modern & Minimalis
+   Versi: 3.0 - Modern Redesign
+   ============================================ */
 
-        body {
-            background: linear-gradient(135deg, #0c0e2a 0%, #1a1b3a 50%, #0c0e2a 100%);
-            color: #e0e0ff;
-            min-height: 100vh;
-            padding: 20px;
-        }
+/* RESET & BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+:root {
+    /* Modern Color Palette - Minimal & Elegant */
+    --primary: #ffffff;              /* White background */
+    --secondary: #f8fafc;           /* Light gray */
+    --tertiary: #f1f5f9;            /* Soft gray */
+    --accent: #3b82f6;              /* Modern blue */
+    --accent-light: #60a5fa;        /* Light blue */
+    --accent-dark: #2563eb;         /* Dark blue */
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* Neutral Colors */
+    --text: #1e293b;                /* Dark gray for text */
+    --text-secondary: #475569;      /* Medium gray */
+    --text-muted: #94a3b8;          /* Light gray */
+    
+    /* Status Colors */
+    --success: #10b981;             /* Emerald */
+    --warning: #f59e0b;             /* Amber */
+    --danger: #ef4444;              /* Red */
+    --info: #3b82f6;                /* Blue */
+    
+    /* Border Radius - Modern Rounded */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    /* Modern Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Glass Effect */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            background: rgba(16, 18, 54, 0.8);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(100, 120, 255, 0.2);
-        }
+body {
+    background-color: var(--primary);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+    
+    /* Subtle gradient background */
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+}
 
-        h1 {
-            font-size: 3.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #7b8cff, #a66fff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(123, 140, 255, 0.3);
-        }
+/* TYPOGRAPHY */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #b8c1ff;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
-        .upload-section {
-            background: rgba(25, 28, 65, 0.8);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 2px dashed rgba(100, 120, 255, 0.4);
-            text-align: center;
-        }
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
 
-        .upload-area {
-            padding: 40px 20px;
-            border-radius: 10px;
-            background: rgba(16, 18, 54, 0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
+h3 {
+    font-size: 1.875rem;
+}
 
-        .upload-area:hover {
-            background: rgba(16, 18, 54, 0.8);
-            border-color: rgba(123, 140, 255, 0.6);
-        }
+h4 {
+    font-size: 1.5rem;
+}
 
-        .upload-area i {
-            font-size: 4rem;
-            color: #7b8cff;
-            margin-bottom: 15px;
-        }
+p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}
 
-        .upload-area h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #a6b1ff;
-        }
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    position: relative;
+}
 
-        .upload-area p {
-            color: #b8c1ff;
-            margin-bottom: 15px;
-        }
+a:hover {
+    color: var(--accent-dark);
+}
 
-        #fileInput {
-            display: none;
-        }
+/* CONTAINER */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
 
-        .quick-tips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+/* HEADER & NAVIGATION */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    margin-bottom: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+}
 
-        .tip {
-            background: rgba(58, 63, 140, 0.3);
-            padding: 10px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .tip i {
-            color: #7b8cff;
-        }
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--accent-gradient);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+.logo-text h1 {
+    font-size: 1.75rem;
+    margin-bottom: 4px;
+}
 
-        .btn {
-            padding: 12px 25px;
-            background: linear-gradient(90deg, #3a3f8c, #5a40a3);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 15px rgba(58, 63, 140, 0.4);
-        }
+.logo-text p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 0;
+}
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(58, 63, 140, 0.6);
-            background: linear-gradient(90deg, #4a4f9c, #6a50b3);
-        }
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    background: var(--secondary);
+    padding: 8px;
+    border-radius: var(--radius-xl);
+}
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+nav a {
+    padding: 12px 24px;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all var(--transition-normal);
+}
 
-        .album-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+nav a:hover {
+    background: var(--primary);
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+}
 
-        .photo-item {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            height: 250px;
-            background: #16193d;
-            border: 1px solid rgba(100, 120, 255, 0.1);
-        }
+nav a.active {
+    background: var(--primary);
+    color: var(--text);
+    box-shadow: var(--shadow-md);
+}
 
-        .photo-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-        }
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
 
-        .photo-item.dragging {
-            opacity: 0.7;
-            transform: scale(1.05);
-            z-index: 100;
-        }
+.user-info span {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
 
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-        }
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+}
 
-        .photo-item:hover img {
-            transform: scale(1.05);
-        }
+.btn-login, .btn-register, .btn-logout {
+    padding: 10px 24px;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
 
-        .photo-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(12, 14, 42, 0.95), transparent);
-            padding: 20px 15px 15px;
-            transform: translateY(5px);
-            transition: transform 0.3s ease;
-        }
+.btn-login {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--tertiary);
+}
 
-        .photo-item:hover .photo-info {
-            transform: translateY(0);
-        }
+.btn-login:hover {
+    background: var(--tertiary);
+    color: var(--text);
+}
 
-        .photo-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.btn-register {
+    background: var(--accent);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
 
-        .photo-desc {
-            font-size: 0.9rem;
-            color: #b8c1ff;
-        }
+.btn-register:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
 
-        .drag-handle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(16, 18, 54, 0.8);
-            color: #b8c1ff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: grab;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-        }
+.btn-logout {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
 
-        .drag-handle:active {
-            cursor: grabbing;
-        }
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
 
-        .photo-count {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #a6b1ff;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(25, 28, 65, 0.5);
-            border-radius: 10px;
-        }
+/* HERO SECTION */
+.hero {
+    text-align: center;
+    padding: 80px 40px;
+    margin: 64px 0;
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+}
 
-        .loading {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-        }
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    z-index: 0;
+}
 
-        .loading-spinner {
-            border: 5px solid rgba(100, 120, 255, 0.2);
-            border-radius: 50%;
-            border-top: 5px solid #7b8cff;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+.hero h2 {
+    font-size: 3.5rem;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
-        .empty-album {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(25, 28, 65, 0.3);
-            border-radius: 15px;
-            border: 2px dashed rgba(100, 120, 255, 0.3);
-        }
+.hero p {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    color: var(--text-secondary);
+}
 
-        footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-            color: #8a95ff;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(100, 120, 255, 0.2);
-        }
+.hero-features {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+}
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .album-container {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 20px;
-            }
-            
-            .photo-item {
-                height: 220px;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-star"></i> Album Astronomi - Upload Otomatis</h1>
-            <p class="subtitle">Upload semua foto astronomi sekaligus dari folder <code>src/img</code> Anda. Sistem akan otomatis membaca dan menampilkannya.</p>
-        </header>
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
 
-        <div class="upload-section">
-            <div class="upload-area" id="uploadArea">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Upload Foto dari Folder src/img</h3>
-                <p>Pilih semua foto astronomi sekaligus (bisa multiple select)</p>
-                <p><strong>Tips:</strong> Buka folder src/img, tekan Ctrl+A (Select All), lalu drag ke sini</p>
-                <input type="file" id="fileInput" accept="image/*" multiple>
-                <button class="btn" id="selectFilesBtn">
-                    <i class="fas fa-folder-open"></i> Pilih Foto dari Folder
-                </button>
-            </div>
-            
-            <div class="quick-tips">
-                <div class="tip">
-                    <i class="fas fa-mouse-pointer"></i> Ctrl+A untuk pilih semua
-                </div>
-                <div class="tip">
-                    <i class="fas fa-hand-pointer"></i> Ctrl+Click untuk pilih beberapa
-                </div>
-                <div class="tip">
-                    <i class="fas fa-drag-drop"></i> Drag & Drop langsung dari explorer
-                </div>
-            </div>
-        </div>
+.feature i {
+    width: 64px;
+    height: 64px;
+    background: var(--secondary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
 
-        <div class="controls">
-            <button class="btn" id="shuffleBtn" disabled>
-                <i class="fas fa-random"></i> Acak Posisi
-            </button>
-            <button class="btn" id="clearBtn" disabled>
-                <i class="fas fa-trash"></i> Hapus Semua
-            </button>
-            <button class="btn" id="downloadBtn" disabled>
-                <i class="fas fa-download"></i> Simpan Album
-            </button>
-        </div>
+.feature span {
+    font-weight: 500;
+    color: var(--text);
+}
 
-        <div class="album-container" id="albumContainer">
-            <div class="empty-album">
-                <i class="fas fa-images"></i>
-                <h3>Belum Ada Foto</h3>
-                <p>Upload foto dari folder <strong>src/img</strong> untuk memulai album astronomi Anda</p>
-            </div>
-        </div>
+/* SECTIONS */
+.section-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
 
-        <div class="photo-count" id="photoCount">
-            0 foto di album
-        </div>
+.section-title h3 {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
 
-        <footer>
-            <p>Album Foto Astronomi &copy; 2023 - Drag & Drop untuk atur ulang posisi foto</p>
-        </footer>
-    </div>
+.section-title p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
 
-    <script>
-        // Variabel global
-        let astronomicalPhotos = [];
-        let draggedItem = null;
-        
-        // Daftar nama astronomi untuk judul foto
-        const astronomyNames = [
-            "Galaksi Bimasakti", "Nebula Orion", "Planet Saturnus", "Bimasakti di Atas Gunung",
-            "Nebula Helix", "Bimasakti di Atas Laut", "Aurora Borealis", "Bulan Purnama",
-            "Nebula Carina", "Galaksi Andromeda", "Komet Neowise", "Bintang-bintang di Atas Gurun",
-            "Planet Jupiter", "Nebula Kepiting", "Hujan Meteor", "Supernova",
-            "Lubang Hitam", "Galaksi Sombrero", "Nebula Kupu-kupu", "Planet Mars",
-            "Eklips Matahari", "Gugus Bintang", "Nebula Roset", "Galaksi Pusaran"
-        ];
+/* MOTIVASI CARDS */
+.motivasi-section {
+    margin: 96px 0;
+}
 
-        // Daftar deskripsi astronomi
-        const astronomyDescriptions = [
-            "Keindahan alam semesta yang tak terbatas", "Fenomena luar angkasa yang menakjubkan",
-            "Dokumentasi astronomi yang langka", "Potret indah dari jagad raya",
-            "Eksplorasi visual alam semesta", "Momentum langit malam yang spektakuler",
-            "Keajaiban kosmos yang abadi", "Pemandangan dari luar angkasa",
-            "Fenomena langit yang jarang terlihat", "Keindahan galaksi yang jauh",
-            "Bintang-bintang bersinar di kegelapan", "Misteri alam semesta yang terungkap",
-            "Keagungan ciptaan Tuhan di langit", "Dokumentasi eksplorasi antariksa",
-            "Keindahan yang tak terjangkau kata-kata", "Potret kosmos dari berbagai sudut"
-        ];
+.motivasi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
 
-        // Fungsi untuk mendapatkan nama file tanpa ekstensi
-        function getFileNameWithoutExtension(filename) {
-            return filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-        }
+.motivasi-card {
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+    border: 1px solid var(--tertiary);
+    position: relative;
+    overflow: hidden;
+}
 
-        // Fungsi untuk menghasilkan nama dan deskripsi untuk foto
-        function getAstronomyInfo(filename, index) {
-            const nameFromFile = getFileNameWithoutExtension(filename);
-            
-            // Gunakan nama dari file jika tidak default, atau gunakan nama dari daftar
-            let displayName;
-            if (nameFromFile.length > 3 && nameFromFile !== filename.replace(/\.[^/.]+$/, "")) {
-                displayName = nameFromFile.charAt(0).toUpperCase() + nameFromFile.slice(1);
-            } else {
-                // Gunakan nama dari daftar berdasarkan index, atau acak
-                displayName = astronomyNames[index % astronomyNames.length] || astronomyNames[Math.floor(Math.random() * astronomyNames.length)];
-            }
-            
-            const descIndex = Math.floor(Math.random() * astronomyDescriptions.length);
-            
-            return {
-                title: displayName,
-                desc: astronomyDescriptions[descIndex]
-            };
-        }
+.motivasi-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
 
-        // Fungsi untuk memuat foto ke album
-        function loadPhotos() {
-            const albumContainer = document.getElementById('albumContainer');
-            const photoCount = document.getElementById('photoCount');
-            const shuffleBtn = document.getElementById('shuffleBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            
-            // Kosongkan kontainer
-            albumContainer.innerHTML = '';
-            
-            // Jika tidak ada foto
-            if (astronomicalPhotos.length === 0) {
-                albumContainer.innerHTML = `
-                    <div class="empty-album">
-                        <i class="fas fa-images"></i>
-                        <h3>Belum Ada Foto</h3>
-                        <p>Upload foto dari folder <strong>src/img</strong> untuk memulai album astronomi Anda</p>
-                    </div>
-                `;
-                photoCount.textContent = '0 foto di album';
-                
-                // Nonaktifkan tombol
-                shuffleBtn.disabled = true;
-                clearBtn.disabled = true;
-                downloadBtn.disabled = true;
-                return;
-            }
-            
-            // Aktifkan tombol
-            shuffleBtn.disabled = false;
-            clearBtn.disabled = false;
-            downloadBtn.disabled = false;
-            
-            // Tambahkan setiap foto ke album
-            astronomicalPhotos.forEach((photo, index) => {
-                const photoElement = document.createElement('div');
-                photoElement.className = 'photo-item';
-                photoElement.setAttribute('data-id', photo.id);
-                photoElement.setAttribute('draggable', 'true');
-                
-                photoElement.innerHTML = `
-                    <div class="drag-handle" title="Seret untuk mengatur ulang">
-                        <i class="fas fa-arrows-alt"></i>
-                    </div>
-                    <img src="${photo.src}" alt="${photo.title}" loading="lazy">
-                    <div class="photo-info">
-                        <div class="photo-title">
-                            <i class="fas fa-star"></i> ${photo.title}
-                        </div>
-                        <div class="photo-desc">${photo.desc}</div>
-                        <div class="photo-desc" style="font-size: 0.8rem; margin-top: 5px; color: #8a95ff;">
-                            <i class="fas fa-file-image"></i> ${photo.filename}
-                        </div>
-                    </div>
-                `;
-                
-                albumContainer.appendChild(photoElement);
-            });
-            
-            // Update jumlah foto
-            photoCount.innerHTML = `
-                <i class="fas fa-images"></i> 
-                <strong>${astronomicalPhotos.length} foto</strong> di album astronomi
-                <span style="font-size: 0.9rem; display: block; margin-top: 5px;">Seret dan lepas foto untuk mengatur ulang urutannya</span>
-            `;
-            
-            // Tambahkan event listeners untuk drag & drop
-            setupDragAndDrop();
-        }
+.motivasi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-gradient);
+}
 
-        // Fungsi untuk menyiapkan drag & drop
-        function setupDragAndDrop() {
-            const photoItems = document.querySelectorAll('.photo-item');
-            const albumContainer = document.getElementById('albumContainer');
-            
-            photoItems.forEach(item => {
-                // Event saat mulai menyeret
-                item.addEventListener('dragstart', function(e) {
-                    draggedItem = this;
-                    this.classList.add('dragging');
-                    
-                    // Atur data transfer untuk drag & drop
-                    e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
-                    e.dataTransfer.effectAllowed = 'move';
-                });
-                
-                // Event saat selesai menyeret
-                item.addEventListener('dragend', function() {
-                    this.classList.remove('dragging');
-                    draggedItem = null;
-                    
-                    // Update urutan array setelah drag & drop
-                    updatePhotoOrder();
-                });
-            });
-            
-            // Event saat item diseret di atas kontainer
-            albumContainer.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-                
-                // Dapatkan item yang sedang di-drag dan item yang di bawahnya
-                const afterElement = getDragAfterElement(albumContainer, e.clientY);
-                const draggable = document.querySelector('.dragging');
-                
-                if (afterElement == null) {
-                    albumContainer.appendChild(draggable);
-                } else {
-                    albumContainer.insertBefore(draggable, afterElement);
-                }
-            });
-            
-            albumContainer.addEventListener('drop', function(e) {
-                e.preventDefault();
-            });
-        }
+.motivasi-card i {
+    font-size: 2.5rem;
+    margin-bottom: 24px;
+    color: var(--accent);
+}
 
-        // Fungsi untuk mendapatkan elemen setelah posisi drag
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.photo-item:not(.dragging)')];
-            
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
+.motivasi-card h4 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: var(--text);
+}
 
-        // Fungsi untuk memperbarui urutan array foto
-        function updatePhotoOrder() {
-            const photoItems = document.querySelectorAll('.photo-item');
-            const newOrder = [];
-            
-            photoItems.forEach(item => {
-                const id = parseInt(item.getAttribute('data-id'));
-                const photo = astronomicalPhotos.find(p => p.id === id);
-                if (photo) {
-                    newOrder.push(photo);
-                }
-            });
-            
-            astronomicalPhotos = newOrder;
-            showNotification("Urutan foto telah diperbarui!", 1500);
-        }
+.motivasi-card p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
 
-        // Fungsi untuk mengacak foto
-        function shufflePhotos() {
-            if (astronomicalPhotos.length === 0) return;
-            
-            // Acak urutan array menggunakan Fisher-Yates algorithm
-            for (let i = astronomicalPhotos.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [astronomicalPhotos[i], astronomicalPhotos[j]] = [astronomicalPhotos[j], astronomicalPhotos[i]];
-            }
-            
-            loadPhotos();
-            showNotification("Foto telah diacak!");
-        }
+/* GALERI FOTO */
+.galeri-section {
+    margin: 96px 0;
+}
 
-        // Fungsi untuk menghapus semua foto
-        function clearAllPhotos() {
-            if (astronomicalPhotos.length === 0) return;
-            
-            if (confirm(`Apakah Anda yakin ingin menghapus semua ${astronomicalPhotos.length} foto dari album?`)) {
-                astronomicalPhotos = [];
-                loadPhotos();
-                showNotification("Semua foto telah dihapus dari album!");
-            }
-        }
+.galeri-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
 
-        // Fungsi untuk menangani upload file
-        function setupFileUpload() {
-            const fileInput = document.getElementById('fileInput');
-            const selectFilesBtn = document.getElementById('selectFilesBtn');
-            const uploadArea = document.getElementById('uploadArea');
-            
-            // Klik tombol untuk trigger file input
-            selectFilesBtn.addEventListener('click', () => {
-                fileInput.click();
-            });
-            
-            // Klik area upload untuk trigger file input
-            uploadArea.addEventListener('click', (e) => {
-                if (e.target !== selectFilesBtn && !selectFilesBtn.contains(e.target)) {
-                    fileInput.click();
-                }
-            });
-            
-            // Drag & drop ke area upload
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.style.background = 'rgba(16, 18, 54, 0.9)';
-                uploadArea.style.borderColor = 'rgba(123, 140, 255, 0.8)';
-            });
-            
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.style.background = 'rgba(16, 18, 54, 0.5)';
-                uploadArea.style.borderColor = 'rgba(100, 120, 255, 0.4)';
-            });
-            
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.style.background = 'rgba(16, 18, 54, 0.5)';
-                uploadArea.style.borderColor = 'rgba(100, 120, 255, 0.4)';
-                
-                if (e.dataTransfer.files.length > 0) {
-                    fileInput.files = e.dataTransfer.files;
-                    handleFileUpload(fileInput.files);
-                }
-            });
-            
-            // Ketika file dipilih
-            fileInput.addEventListener('change', function(e) {
-                if (this.files.length > 0) {
-                    handleFileUpload(this.files);
-                }
-            });
-        }
+.galeri-item {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    height: 300px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+}
 
-        // Fungsi untuk memproses file yang diupload
-        function handleFileUpload(files) {
-            // Tampilkan notifikasi
-            showNotification(`Mengupload ${files.length} foto...`, 2000);
-            
-            // Tampilkan loading
-            const albumContainer = document.getElementById('albumContainer');
-            albumContainer.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Memproses ${files.length} foto...</p>
-                </div>
-            `;
-            
-            // Proses file setelah delay kecil untuk UI
-            setTimeout(() => {
-                let newId = astronomicalPhotos.length > 0 
-                    ? Math.max(...astronomicalPhotos.map(p => p.id)) + 1 
-                    : 1;
-                
-                // Tambahkan setiap file yang diupload
-                Array.from(files).forEach((file, index) => {
-                    // Hanya proses file gambar
-                    if (!file.type.match('image.*')) {
-                        console.log(`File ${file.name} bukan gambar, dilewati`);
-                        return;
-                    }
-                    
-                    const fileURL = URL.createObjectURL(file);
-                    const info = getAstronomyInfo(file.name, index);
-                    
-                    astronomicalPhotos.push({
-                        id: newId + index,
-                        src: fileURL,
-                        filename: file.name,
-                        title: info.title,
-                        desc: info.desc,
-                        file: file, // Simpan file asli untuk kebutuhan download
-                        isUploaded: true
-                    });
-                });
-                
-                // Muat ulang foto
-                loadPhotos();
-                
-                // Reset input file
-                document.getElementById('fileInput').value = '';
-                
-                // Tampilkan notifikasi sukses
-                showNotification(`Berhasil menambahkan ${files.length} foto ke album!`);
-                
-                // Tampilkan instruksi drag & drop
-                setTimeout(() => {
-                    if (astronomicalPhotos.length > 0) {
-                        showNotification("Coba seret foto untuk mengatur ulang album!", 4000);
-                    }
-                }, 1000);
-            }, 500);
-        }
+.galeri-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
 
-        // Fungsi untuk menyimpan album
-        function saveAlbum() {
-            if (astronomicalPhotos.length === 0) {
-                showNotification("Tidak ada foto untuk disimpan!", 2000);
-                return;
-            }
-            
-            // Buat data album
-            const albumData = {
-                title: "Album Astronomi",
-                totalPhotos: astronomicalPhotos.length,
-                created: new Date().toISOString(),
-                photos: astronomicalPhotos.map(photo => ({
-                    id: photo.id,
-                    filename: photo.filename,
-                    title: photo.title,
-                    desc: photo.desc
-                }))
-            };
-            
-            // Buat blob dan download
-            const blob = new Blob([JSON.stringify(albumData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `album-astronomi-${new Date().toISOString().slice(0, 10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification("Data album telah disimpan ke file JSON!");
-        }
+.galeri-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
 
-        // Fungsi untuk menampilkan notifikasi
-        function showNotification(message, duration = 3000) {
-            // Hapus notifikasi sebelumnya jika ada
-            const existingNotification = document.querySelector('.notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-            
-            // Buat elemen notifikasi
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            
-            // Tambahkan styling untuk notifikasi
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(90deg, #3a3f8c, #5a40a3);
-                color: white;
-                padding: 15px 25px;
-                border-radius: 10px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                font-weight: 600;
-                animation: slideIn 0.3s ease, fadeOut 0.3s ease ${duration - 300}ms;
-                animation-fill-mode: forwards;
-                max-width: 300px;
-            `;
-            
-            // Tambahkan keyframes untuk animasi jika belum ada
-            if (!document.querySelector('#notification-styles')) {
-                const style = document.createElement('style');
-                style.id = 'notification-styles';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes fadeOut {
-                        from { opacity: 1; }
-                        to { opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            document.body.appendChild(notification);
-            
-            // Hapus notifikasi setelah duration
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, duration);
-        }
+.galeri-item:hover img {
+    transform: scale(1.05);
+}
 
-        // Inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Setup event listeners untuk tombol
-            document.getElementById('shuffleBtn').addEventListener('click', shufflePhotos);
-            document.getElementById('clearBtn').addEventListener('click', clearAllPhotos);
-            document.getElementById('downloadBtn').addEventListener('click', saveAlbum);
-            
-            // Setup file upload
-            setupFileUpload();
-        });
-    </script>
-</body>
-</html>
+.galeri-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 24px;
+    color: white;
+}
+
+.galeri-overlay p {
+    color: white;
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* PENGUMUMAN */
+.pengumuman-section {
+    margin: 96px 0;
+}
+
+.pengumuman-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.pengumuman-card {
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+    border: 1px solid var(--tertiary);
+}
+
+.pengumuman-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.pengumuman-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.pengumuman-badge {
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.pengumuman-badge.penting {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.pengumuman-badge.acara {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+}
+
+.pengumuman-badge.tugas {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.pengumuman-date {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.pengumuman-card h4 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.pengumuman-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* ANGGOTA KELAS */
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 48px 0;
+    flex-wrap: wrap;
+    gap: 24px;
+    background: var(--secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    border: 1px solid var(--tertiary);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.search-box {
+    position: relative;
+    min-width: 280px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 48px;
+    background: var(--primary);
+    border: 1px solid var(--tertiary);
+    border-radius: var(--radius-full);
+    color: var(--text);
+    font-size: 0.875rem;
+    transition: all var(--transition-normal);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.anggota-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+    margin: 48px 0;
+}
+
+.anggota-card {
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: center;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--tertiary);
+    position: relative;
+    overflow: hidden;
+}
+
+.anggota-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.anggota-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+}
+
+.anggota-nama {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.anggota-nim {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 0.875rem;
+}
+
+.anggota-role {
+    display: inline-block;
+    padding: 8px 20px;
+    background: var(--secondary);
+    color: var(--text);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.anggota-role.ketua-kelas {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+}
+
+.anggota-role.sekretaris {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.anggota-role.bendahara {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+}
+
+.anggota-bidang {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+}
+
+.anggota-deskripsi {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-size: 0.9375rem;
+}
+
+.anggota-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--tertiary);
+}
+
+.anggota-jk {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-detail {
+    padding: 8px 20px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--tertiary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.btn-detail:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* STATISTIK */
+.statistik-section {
+    margin: 96px 0;
+}
+
+.statistik-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.statistik-card {
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: center;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--tertiary);
+}
+
+.statistik-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.statistik-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--secondary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+.statistik-info h4 {
+    font-size: 2.5rem;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.statistik-info p {
+    color: var(--text-muted);
+    margin-bottom: 0;
+    font-size: 0.875rem;
+}
+
+/* AUTH PAGES */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+    background: var(--secondary);
+}
+
+.auth-box {
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-gradient);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.auth-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-gradient);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: white;
+    font-size: 2rem;
+}
+
+.auth-header h2 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* FORM STYLES */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--secondary);
+    border: 1px solid var(--tertiary);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 42px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+}
+
+.password-toggle:hover {
+    color: var(--accent);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.forgot-password {
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.btn-auth:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.demo-login {
+    margin: 32px 0;
+    text-align: center;
+}
+
+.demo-login p {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+}
+
+.demo-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-demo {
+    flex: 1;
+    padding: 12px;
+    background: var(--secondary);
+    border: 1px solid var(--tertiary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: 0.875rem;
+}
+
+.btn-demo:hover {
+    background: var(--tertiary);
+    color: var(--text);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--tertiary);
+}
+
+.auth-footer p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.auth-footer a {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ALERTS */
+.alert {
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+}
+
+.alert i {
+    font-size: 1.25rem;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* FOOTER */
+footer {
+    background: var(--secondary);
+    border-top: 1px solid var(--tertiary);
+    padding: 64px 0 32px;
+    margin-top: 96px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-section h4 {
+    font-size: 1.125rem;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+.footer-section p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 12px;
+}
+
+.footer-section ul li a {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    transition: color var(--transition-fast);
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent);
+}
+
+.footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid var(--tertiary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-bottom p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.footer-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-size: 0.875rem;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--text);
+    border: 1px solid var(--tertiary);
+}
+
+.btn-secondary:hover {
+    background: var(--tertiary);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.btn-outline:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.5rem; }
+    
+    header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px 0;
+    }
+    
+    nav ul {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero {
+        padding: 40px 20px;
+        margin: 40px 0;
+    }
+    
+    .hero h2 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-features {
+        gap: 24px;
+    }
+    
+    .motivasi-container,
+    .pengumuman-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .galeri-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .anggota-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        min-width: 100%;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 16px;
+    }
+    
+    .logo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .logo-text h1 {
+        font-size: 1.5rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        padding: 0;
+        background: none;
+    }
+    
+    nav a {
+        width: 100%;
+        text-align: center;
+        border-radius: var(--radius-md);
+    }
+    
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .auth-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .hero-features {
+        flex-direction: column;
+    }
+    
+    .galeri-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .statistik-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-box {
+        padding: 32px 24px;
+    }
+    
+    .demo-buttons {
+        flex-direction: column;
+    }
+}
+
+/* UTILITY CLASSES */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mt-5 { margin-top: 3rem; }
+
+.hidden { display: none !important; }
+
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+.w-100 { width: 100%; }
+
+.rounded-full { border-radius: var(--radius-full); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
